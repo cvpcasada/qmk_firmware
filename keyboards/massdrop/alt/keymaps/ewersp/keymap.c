@@ -16,8 +16,37 @@ enum alt_layers {
     DEF = 0,
     ALT,
     FUNC,
-    SUPR
+    SUPR,
+    INVCTRL,
+    APPL
 };
+
+/*
+@TODO
+// Light LEDs 11 & 12 in purple when keyboard layer 2 is active
+const rgblight_segment_t PROGMEM alt_layer_led_indicator[] = RGBLIGHT_LAYER_SEGMENTS(
+    {14, 1, HSV_PURPLE}
+);
+const rgblight_segment_t PROGMEM inv_ctrl_layer_led_indicator[] = RGBLIGHT_LAYER_SEGMENTS(
+    {14, 1, HSV_CYAN}
+);
+const rgblight_segment_t PROGMEM appl_layer_led_indicator[] = RGBLIGHT_LAYER_SEGMENTS(
+    {14, 1, HSV_YELLOW}
+);
+
+// Now define the array of layers. Later layers take precedence
+const rgblight_segment_t* const PROGMEM rgb_layers[] = RGBLIGHT_LAYERS_LIST(
+    alt_layer_led_indicator,
+    inv_ctrl_layer_led_indicator,
+    appl_layer_led_indicator
+);
+
+void keyboard_post_init_user(void) {
+    // Enable the LED layers
+    rgblight_layers = rgb_layers;
+}
+*/
+
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [DEF] = LAYOUT_65_ansi_blocker(
@@ -38,7 +67,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_GRV,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  _______, KC_MUTE,
         _______, RGB_SPD, RGB_VAI, RGB_SPI, RGB_HUI, RGB_SAI, _______, U_T_AUTO,U_T_AGCR,_______, KC_PSCR, KC_SLCK, KC_PAUS, _______, KC_END,
         _______, RGB_RMOD,RGB_VAD, RGB_MOD, RGB_HUD, RGB_SAD, _______, _______, _______, _______, _______, _______,          _______, KC_VOLU,
-        _______, RGB_TOG, _______, _______, _______, MD_BOOT, NK_TOGG, DBG_TOG, _______, TG(ALT), _______, _______,          KC_PGUP, KC_VOLD,
+        _______, RGB_TOG, _______, _______, _______, MD_BOOT, NK_TOGG, DBG_TOG, TG(INVCTRL), TG(ALT), TG(APPL), _______,          KC_PGUP, KC_VOLD,
         _______, _______, KC_LALT,                            _______,                            _______, _______, KC_HOME, KC_PGDN, KC_END
     ),
     [SUPR] = LAYOUT_65_ansi_blocker(
@@ -47,7 +76,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______,
         _______, _______, _______,                            _______,                            _______, _______, KC_HOME, _______, KC_END
-    )
+    ),
+    [INVCTRL] = LAYOUT_65_ansi_blocker(
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______,
+        KC_LALT, _______, KC_LCTL,                            _______,                            _______, _______, _______, _______, _______
+    ),
+    [APPL] = LAYOUT_65_ansi_blocker(
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______,
+        _______, MO(SUPR), KC_LGUI,                            _______,                            _______, _______, _______, _______, _______
+    ),
+    
 };
 
 // If the super alt layer is the active layer
